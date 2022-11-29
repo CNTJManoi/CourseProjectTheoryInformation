@@ -1,0 +1,116 @@
+﻿<Window x:Class="DataSender.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dataGrid2D="http://gu.se/DataGrid2D"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataSender"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="692" Width="1379" Closing="OnWindowClosing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.25*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                <TextBlock FontSize="36" Text="Побуквенное кодирование" FontWeight="Bold" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Grid.ColumnSpan="2">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <TextBlock Text="Кодируемый текст: " FontSize="24" />
+                    <TextBox x:Name="CodeTextBox" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,5,20,20">
+                    <TextBlock Text="Результат: " FontSize="24" Margin="98,0,0,0" />
+                    <TextBox x:Name="ResultCode" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.ColumnSpan="1">
+                <DockPanel LastChildFill="True" Margin="20">
+                    <TextBlock Text="Результат выполнения" FontSize="24" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" DockPanel.Dock="Top" />
+                    <DataGrid x:Name="InfoDataGrid" Height="200" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.Column="1">
+                <DockPanel LastChildFill="True" Margin="20">
+                    <TextBlock Text="Оптимальность: " FontSize="24" />
+                    <TextBox x:Name="OptimalityTextBox" IsReadOnly="True" FontSize="16" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20">
+                    <TextBlock Text="Избыточность: " FontSize="24" Margin="0,0,12,0" />
+                    <TextBox x:Name="RedundancyTextBox" IsReadOnly="True" FontSize="24" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <Button x:Name="BeginWorkButton2" DockPanel.Dock="Top" Background="#FF312D2D" Click="BeginWorkButton_Click">
+                        <TextBlock Text="Побуквенное кодирование" Margin="10" FontSize="20" Foreground="White" />
+                    </Button>
+                </DockPanel>
+
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.25*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                <TextBlock FontSize="36" Text="Хэмминг" FontWeight="Bold" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Grid.ColumnSpan="2">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <TextBlock Text="Кодируемый текст: " FontSize="24" />
+                    <TextBox IsReadOnly="True" x:Name="CodeTextBox2" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding Text, ElementName=ResultCode}"
+                    />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,5,20,20">
+                    <TextBlock Text="Результат: " FontSize="24" Margin="98,0,0,0" />
+                    <TextBox IsReadOnly="True" x:Name="ResultCode2" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             Text="{Binding CodeText}" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.ColumnSpan="1">
+                <DockPanel LastChildFill="True" Margin="20">
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                        <TextBlock Text="Порождающая матрица" FontSize="24" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" DockPanel.Dock="Top" />
+                        <DataGrid x:Name="GenerativeMatrixGrid" HeadersVisibility="None" IsReadOnly="True"
+                               Height="114"
+                              Margin="5,5,5,5" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                        <TextBlock Text="Проверочная матрица" FontSize="24" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" DockPanel.Dock="Top" Margin="0,10,0,0" />
+                        <DataGrid HeadersVisibility="None" IsReadOnly="True"
+                                  x:Name="CheckingMatrixGrid"
+                                  Height="100" />
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.Column="1">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <Button x:Name="BeginWorkButton" DockPanel.Dock="Top" Command="{Binding ButtonBegins, Mode=OneWay}" Background="#FF312D2D" Click="BeginWorkButton_Click_1">
+                        <TextBlock Text="Найти код Хэмминга" Margin="10" FontSize="24" Foreground="White" />
+                    </Button>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

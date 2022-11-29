@@ -1,0 +1,106 @@
+﻿<Window x:Class="DataReceiver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:dataGrid2D="http://gu.se/DataGrid2D"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModel="clr-namespace:DataReceiver.ViewModel"
+        xmlns:local="clr-namespace:DataReceiver"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="731" Width="1729">
+    <Window.DataContext>
+        <ViewModel:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.25*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                <TextBlock FontSize="36" Text="Код Хэмминга" FontWeight="Bold" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Grid.ColumnSpan="2">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <TextBlock Text="Полученный код: " FontSize="24" />
+                    <TextBox IsReadOnly="True" x:Name="CodeTextBox" FontSize="24" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" Text="{Binding Code, Mode=OneWay}" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,5,20,20">
+                    <TextBlock Text="Результат: " FontSize="24" Margin="82,0,0,0" />
+                    <TextBox IsReadOnly="True" x:Name="ResultCode" FontSize="24" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" Text="{Binding DecodeText}" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.ColumnSpan="1">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <TextBlock Text="Информация о коде" FontSize="24" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" DockPanel.Dock="Top" />
+                    <DataGrid x:Name="InfoDataGrid" Height="150"
+                          ItemsSource="{Binding DataGridDataInfo, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,5,20,20">
+                    <TextBlock Text="Декодинг" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           DockPanel.Dock="Top" />
+                    <DataGrid IsReadOnly="True" x:Name="DecodeDataGrid" Height="150"
+                          ItemsSource="{Binding DecodeGridDataInfo, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.Column="1">
+                <StackPanel Orientation="Vertical" Margin="20,20,20,20" HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    
+                    <Button Command="{Binding ButtonBegins, Mode=OneWay}" Content="Декодировать" FontSize="24"
+                        Margin="0,5,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.25*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                <TextBlock FontSize="36" Text="Побуквенное кодирование" FontWeight="Bold" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Grid.ColumnSpan="2">
+                <DockPanel LastChildFill="True" Margin="20,20,20,5">
+                    <TextBlock Text="Полученный код: " FontSize="24" />
+                    <TextBox IsReadOnly="True" Name="CodeTextBox2" FontSize="24" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" Text="{Binding Text, ElementName=ResultCode}" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Margin="20,5,20,20">
+                    <TextBlock Text="Результат: " FontSize="24" Margin="82,0,0,0" />
+                    <TextBox IsReadOnly="True" Name="ResultCode2" FontSize="24" HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch" Text="{Binding DecodeTextChar}" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical" Grid.ColumnSpan="1">
+                <DockPanel LastChildFill="True" Margin="20">
+                    <TextBlock Text="Алфавит" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           DockPanel.Dock="Top" />
+                    <DataGrid IsReadOnly="True" Name="InfoDataGrid2" Height="349"
+                          ItemsSource="{Binding DataGridDataInfoChar, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1">
+                <Button Command="{Binding ButtonBeginsTwo, Mode=OneWay}" Content="Декодировать" FontSize="24"
+                        Margin="0,5,0,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
