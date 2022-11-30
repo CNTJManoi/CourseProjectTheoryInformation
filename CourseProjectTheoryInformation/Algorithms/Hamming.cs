@@ -6,13 +6,12 @@ namespace DataSender.Algorithms;
 
 public class Hamming
 {
+    public static string nab{get;set;}
     public static string CodeText(string Text, List<List<int>> GenerativeMatr)
     {
         var result = "";
         var ch = "";
-        for (var i = 0; i < Text.Length; i++)
-        {
-            var Binary = TextUtils.CharToBytes(Text[i]);
+            var Binary = TextUtils.CharToBytes(Text);
             var Bytes = TextUtils.Split(Binary, 4).ToList();
             for (var m = 0; m < Bytes.Count; m++)
             for (var j = 0; j < GenerativeMatr[0].Count; j++)
@@ -34,7 +33,7 @@ public class Hamming
                     ch = "";
                 }
             }
-        }
+        
 
         return result;
     }

@@ -33,7 +33,9 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
     public DelegateCommand ButtonBeginsTwo => _buttonClickTwo ?? (_buttonClickTwo = new DelegateCommand(DecodeChar));
     private ClientNetwork cn { get; set; }
     public string Code { get; set; }
+    public int nab { get; set; }
     public string DecodeText { get; set; }
+    public string CodeInput { get; set; }
     public ObservableCollection<CharInfo> DataGridDataInfo { get; set; }
     public ObservableCollection<DecodeText> DecodeGridDataInfo { get; set; }
     public List<List<int>> CheckingMatr { get; }
@@ -48,6 +50,7 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
 
     public MainViewModel() : this(Dispatcher.CurrentDispatcher)
     {
+        CodeInput = "Ожидание данных...";
         cn = new ClientNetwork();
         var refresh = new Thread(Refresh);
         refresh.Start();
@@ -56,6 +59,7 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
         CheckingMatr = new List<List<int>>();
         FillCheckingMatr();
         Codes = new Dictionary<string, char>();
+        
     }
 
     public MainViewModel(Dispatcher dispatcher)
@@ -79,15 +83,17 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
         while (true)
         {
             var prev = cn.Code;
-            while (prev == Code)
+            while (prev == CodeInput)
             {
                 prev = cn.Code;
                 Thread.Sleep(100);
             }
 
-            Action action3 = () => Code = cn.Code;
+            Action action3 = () => CodeInput = cn.Code;
+            Action action4 = () => Code = cn.Code;
             var action2 = () => Decode();
             var action = () => OnPropertyChanged(nameof(Code));
+            Invoke(action4);
             Invoke(action3);
             Invoke(action2);
             Invoke(action);
@@ -99,6 +105,9 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
     {
         if (Code != "Ожидание данных...")
         {
+            string[] m = Code.Split(' ');
+            Code = m[0];
+            nab = int.Parse(m[1]);
             DataGridDataInfo = new ObservableCollection<CharInfo>();
             var Bytes = TextUtils.Split(Code, 8).ToList();
             foreach (var sym in Bytes)
@@ -196,13 +205,9 @@ internal class MainViewModel : INotifyPropertyChanged, IContext
             foreach (var param in DecodeGridDataInfo)
             {
                 p += param.Result.Substring(0, 4);
-                if (p.Length == 16)
-                {
-                    DecodeText += TextUtils.BytesToChar(p);
-                    p = "";
-                }
             }
-            
+            p = p.Remove(0, nab);
+            DecodeText = p;
         }
         OnPropertyChanged(nameof(DecodeGridDataInfo));
         OnPropertyChanged(nameof(DecodeText));

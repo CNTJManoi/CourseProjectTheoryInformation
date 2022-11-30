@@ -1,6 +1,6 @@
 ﻿namespace DataReceiver.Models;
 
-internal class CharInfo
+public class CharInfo
 {
     public CharInfo(string info, string examination, string countability)
     {

@@ -9,18 +9,17 @@ namespace DataSender.Models
 {
     internal static class TextUtils
     {
-        public static string CharToBytes(char ch)
+        public static int Nabiv { get; set; }
+        public static string CharToBytes(string bin)
         {
-            var result = "";
-            var bytes = Encoding.Unicode.GetBytes(ch.ToString());
-            foreach (var b in bytes)
+            Nabiv = 0;
+            while (bin.Length % 4 != 0)
             {
-                var p = Convert.ToString(b, 2);
-                while (p.Length != 8) p = p.Insert(0, "0");
-                result = result.Insert(0, p);
+                Nabiv++;
+                bin = bin.Insert(0, "0");
             }
 
-            return result;
+            return bin;
         }
 
         public static string BytesToChar(string binaryStr)

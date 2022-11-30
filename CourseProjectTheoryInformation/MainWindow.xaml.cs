@@ -30,6 +30,7 @@ namespace DataSender
         }
         private void BeginWorkButton_Click(object sender, RoutedEventArgs e)
         {
+            
             var resultCode = "";
             var message = CodeTextBox.Text;
             if (message == "" || message == null)
@@ -41,6 +42,10 @@ namespace DataSender
             Clear();
             var fa = new FanoAlgorithm(message);
             var Codes = fa.Res;
+            if(message.Length == 1)
+            {
+                Codes = new string[] { "0" };
+            }
             var Table = fa.ReturnTable();
             InfoDataGrid.ItemsSource = Table;
             foreach (var charing in Codes) ResultCode.Text += charing;
@@ -119,7 +124,7 @@ namespace DataSender
 
             var result = Hamming.CodeText(ResultCode.Text, GenMatr);
             ResultCode2.Text = result;
-            nl.SendToClients(ResultCode2.Text); 
+            nl.SendToClients(ResultCode2.Text + " " + TextUtils.Nabiv);
         }
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
